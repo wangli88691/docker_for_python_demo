@@ -1,0 +1,36 @@
+Ubuntu docker 、docker-compose 应用
+
+转至元数据结尾
+* 创建： 王丽，最新修改于： 六月 08, 2018
+转至元数据起始
+
+Ubuntu 14.04 16.04 (使用apt-get进行安装docker)
+
+# step 1: 安装必要的一些系统工具
+sudo apt-get update
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+# step 2: 安装GPG证书
+curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+# Step 3: 写入软件源信息
+sudo add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+# Step 4: 更新并安装 Docker-CE
+sudo apt-get -y update
+sudo apt-get -y install docker-ce
+
+Ubuntu 14.04 16.04 (安装docker-compose)
+
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+查看docker-compose 版本
+sudo docker-compose --version
+
+
+cd 项目根目录（docker-compose.yml文件所在目录）
+sudo docker-compose up : 创建镜像-->根据镜像创建容器并启动
+sudo docker-compose down : 停止容器→删除容器与network
+
+任意目录
+sudo docker ps -a :查看所有容器
+sudo docker images :查看所有镜像
+sudo docker exec -it  容器名\容器ID  bash :进入容器（在容器内部可做任意操作：查看日志、查看supervisor等）
+sudo docker  inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'  容器名\容器ID   ：查看容器的内网IP（如Sequel Pro 可通过内网IP  以SSH 方式 链接mysql容器的数据库）
